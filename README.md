@@ -17,8 +17,15 @@ composer require dennisvandalen/shipment-url-parser-php
 ## Usage
 
 ```php
-$skeleton = new DennisVanDalen\ShipmentUrlParser();
-echo $skeleton->echoPhrase('Hello, DennisVanDalen!');
+$shipment = (new ShipmentUrlParser())
+    ->parse('https://dhlparcel.nl/en/private/receiving/follow-your-shipment?tt=TRACKING_CODE&pc=ZIPCODE');
+
+//DennisVanDalen\ShipmentUrlParser\DTO\Shipment {
+//  +url: "https://dhlparcel.nl/en/private/receiving/follow-your-shipment?tt=TRACKING_CODE&pc=ZIPCODE"
+//  +trackingNumber: "TRACKING_CODE"
+//  +carrier: "DHL"
+//  +carrierName: "DHL"
+//}
 ```
 
 ## Testing
