@@ -55,7 +55,7 @@ class ShipmentUrlParser
         $result = [];
 
         foreach ($array as $item) {
-            if (! is_array($item)) {
+            if (!is_array($item)) {
                 $result[] = $item;
             } else {
                 $values = $depth === 1
@@ -79,7 +79,7 @@ class ShipmentUrlParser
 
         return new Shipment(
             url: $url,
-            trackingNumber: $trackingCode,
+            trackingCode: $trackingCode,
             carrier: Shipment::POSTNL,
             carrierName: 'PostNL',
         );
@@ -94,7 +94,7 @@ class ShipmentUrlParser
 
         return new Shipment(
             url: $url,
-            trackingNumber: $trackingCode,
+            trackingCode: $trackingCode,
             carrier: Shipment::ONBEZORGD,
             carrierName: 'Onbezorgd',
         );
@@ -109,7 +109,7 @@ class ShipmentUrlParser
 
         return new Shipment(
             url: $url,
-            trackingNumber: $trackingCode,
+            trackingCode: $trackingCode,
             carrier: Shipment::DHL,
             carrierName: 'DHL',
         );

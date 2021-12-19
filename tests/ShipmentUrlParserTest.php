@@ -13,7 +13,7 @@ it('can parse PostNL url', function () {
 
     expect($shipment)
         ->carrier->toBe(Shipment::POSTNL)
-        ->trackingNumber->toBe('TRACKING_CODE');
+        ->trackingCode->toBe('TRACKING_CODE');
 });
 
 it('can parse DHL url', function () {
@@ -22,7 +22,7 @@ it('can parse DHL url', function () {
 
     expect($shipment)
         ->carrier->toBe(Shipment::DHL)
-        ->trackingNumber->toBe('TRACKING_CODE');
+        ->trackingCode->toBe('TRACKING_CODE');
 });
 
 it('can parse Onbezorgd url', function () {
@@ -31,5 +31,5 @@ it('can parse Onbezorgd url', function () {
 
     expect($shipment)
         ->carrier->toBe(Shipment::ONBEZORGD)
-        ->trackingNumber->toBe('TRACKING_CODE');
+        ->trackingCode->toBe('TRACKING_CODE');
 });

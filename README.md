@@ -22,7 +22,7 @@ $shipment = (new ShipmentUrlParser())
 
 //DennisVanDalen\ShipmentUrlParser\DTO\Shipment {
 //  +url: "https://dhlparcel.nl/en/private/receiving/follow-your-shipment?tt=TRACKING_CODE&pc=ZIPCODE"
-//  +trackingNumber: "TRACKING_CODE"
+//  +trackingCode: "TRACKING_CODE"
 //  +carrier: "DHL"
 //  +carrierName: "DHL"
 //}

@@ -12,7 +12,7 @@ class Shipment
 
     public function __construct(
         public string $url,
-        public string $trackingNumber,
+        public string $trackingCode,
         public string $carrier,
         public string $carrierName,
     ) {
