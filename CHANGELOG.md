@@ -6,6 +6,10 @@ All notable changes to `shipment-url-parser-php` will be documented in this file
 
 Initial release
 
+## 1.0.0 - 2021-12-19
+
+Initial release
+
 ## 1.0.0 - 2021-12-18
 
 - initial release
