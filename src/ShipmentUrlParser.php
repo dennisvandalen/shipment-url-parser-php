@@ -57,7 +57,7 @@ class ShipmentUrlParser
         $result = [];
 
         foreach ($array as $item) {
-            if (!is_array($item)) {
+            if (! is_array($item)) {
                 $result[] = $item;
             } else {
                 $values = $depth === 1
