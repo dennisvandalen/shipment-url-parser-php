@@ -39,8 +39,6 @@ class ShipmentUrlParser
         $locations[] = $url;
         $getHeaders = get_headers($url, true);
 
-        ray($getHeaders);
-
         if (isset($getHeaders['location'])) {
             $locations[] = $getHeaders['location'];
         }
