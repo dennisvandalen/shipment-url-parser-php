@@ -33,3 +33,11 @@ it('can parse Onbezorgd url', function () {
         ->carrier->toBe(Shipment::ONBEZORGD)
         ->trackingCode->toBe('TRACKING_CODE');
 });
+
+it('can parse random url', function () {
+    $shipment = (new ShipmentUrlParser())
+        ->parse('https://fewjfbewjkfbkewjf.nl/trackandtrace.html?zipcode=ZIPCODE&orderreference=TRACKING_CODE');
+
+    expect($shipment)
+        ->toBeNull();
+});
