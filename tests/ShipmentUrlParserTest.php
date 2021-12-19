@@ -8,7 +8,7 @@ it('can test', function () {
 });
 
 it('can parse PostNL url', function () {
-    $shipment = (new ShipmentUrlParser)
+    $shipment = (new ShipmentUrlParser())
         ->parse('http://postnl.nl/tracktrace/?D=NL&B=TRACKING_CODE&P=ZIPCODE');
 
     expect($shipment)
@@ -17,7 +17,7 @@ it('can parse PostNL url', function () {
 });
 
 it('can parse DHL url', function () {
-    $shipment = (new ShipmentUrlParser)
+    $shipment = (new ShipmentUrlParser())
         ->parse('https://dhlparcel.nl/en/private/receiving/follow-your-shipment?tt=TRACKING_CODE&pc=ZIPCODE');
 
     expect($shipment)
@@ -26,7 +26,7 @@ it('can parse DHL url', function () {
 });
 
 it('can parse Onbezorgd url', function () {
-    $shipment = (new ShipmentUrlParser)
+    $shipment = (new ShipmentUrlParser())
         ->parse('https://pakket.onbezorgd.nl/trackandtrace.html?zipcode=ZIPCODE&orderreference=TRACKING_CODE');
 
     expect($shipment)
