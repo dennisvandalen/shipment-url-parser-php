@@ -1,16 +1,16 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "dennisvandalen/shipment-url-parser-php",
+    "description": "This is my package shipment-url-parser-php",
     "keywords": [
-        ":vendor_name",
-        ":package_slug"
+        "dennisvandalen",
+        "shipment-url-parser-php"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/dennisvandalen/shipment-url-parser-php",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Dennis van Dalen",
+            "email": "hi@vandalen.dev",
             "role": "Developer"
         }
     ],
@@ -24,12 +24,12 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src"
+            "DennisVanDalen\\ShipmentUrlParser\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "DennisVanDalen\\ShipmentUrlParser\\Tests\\": "tests"
         }
     },
     "scripts": {
