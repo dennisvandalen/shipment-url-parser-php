@@ -6,7 +6,7 @@ use DennisVanDalen\ShipmentUrlParser\DTO\Shipment;
 
 class ShipmentUrlParser
 {
-    public function parse(string $url, bool $handleRedirects = false)
+    public function parse(string $url, bool $handleRedirects = false): ?Shipment
     {
         if ($handleRedirects) {
             $urls = $this->resolveUrls($url);
@@ -29,21 +29,23 @@ class ShipmentUrlParser
             } catch (\Exception $ignored) {
             }
         }
+
+        return null;
     }
 
-    public function resolveUrls($url)
+    public function resolveUrls($url): array
     {
         $locations = [];
         $locations[] = $url;
-        $getheaders = get_headers($url, true);
+        $getHeaders = get_headers($url, true);
 
-        ray($getheaders);
+        ray($getHeaders);
 
-        if (isset($getheaders['location'])) {
-            $locations[] = $getheaders['location'];
+        if (isset($getHeaders['location'])) {
+            $locations[] = $getHeaders['location'];
         }
-        if (isset($getheaders['Location'])) {
-            $locations[] = $getheaders['Location'];
+        if (isset($getHeaders['Location'])) {
+            $locations[] = $getHeaders['Location'];
         }
 
         return self::flatten($locations);
@@ -55,7 +57,7 @@ class ShipmentUrlParser
         $result = [];
 
         foreach ($array as $item) {
-            if (! is_array($item)) {
+            if (!is_array($item)) {
                 $result[] = $item;
             } else {
                 $values = $depth === 1
@@ -85,7 +87,7 @@ class ShipmentUrlParser
         );
     }
 
-    private function onbezorgdShipment(string $url, array $trackingUrlCompnents)
+    private function onbezorgdShipment(string $url, array $trackingUrlCompnents): Shipment
     {
         // https://pakket.onbezorgd.nl/trackandtrace.html?zipcode=ZIPCODE&orderreference=TRACKING_CODE
 
@@ -100,7 +102,7 @@ class ShipmentUrlParser
         );
     }
 
-    private function dhlShipment(string $url, array $trackingUrlCompnents)
+    private function dhlShipment(string $url, array $trackingUrlCompnents): Shipment
     {
         // https://dhlparcel.nl/en/private/receiving/follow-your-shipment?tt=TRACKING_CODE&pc=ZIPCODE
 
