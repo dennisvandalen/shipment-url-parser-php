@@ -57,6 +57,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Create a new release
 
+- Fix formatting with `composer format`
 - Push changes to the main branch
 - Update the changelog
 - Create a new release on GitHub with GitHub CLI: `gh release create 1.0.5`
