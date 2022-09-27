@@ -55,6 +55,12 @@ Please review [our security policy](../../security/policy) on how to report secu
 - [Dennis van Dalen](https://github.com/dennisvandalen)
 - [All Contributors](../../contributors)
 
+## Create a new release
+
+- Push changes to the main branch
+- Update the changelog
+- Create a new release on GitHub with GitHub CLI: `gh release create 1.0.5`
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
