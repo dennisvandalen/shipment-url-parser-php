@@ -25,6 +25,8 @@ class ShipmentUrlParser
                     return $this->onbezorgdShipment($url, $trackingUrlComponents);
                 } elseif (str_contains($host, 'dhlparcel.nl')) {
                     return $this->dhlShipment($url, $trackingUrlComponents);
+                } elseif (str_contains($host, 'asendia.com')) {
+                    return $this->asendiaShipment($url, $trackingUrlComponents);
                 }
             } catch (\Exception $ignored) {
             }
@@ -112,6 +114,17 @@ class ShipmentUrlParser
             trackingCode: $trackingCode,
             carrier: Shipment::DHL,
             carrierName: 'DHL',
+        );
+    }
+
+    private function asendiaShipment(string $url, array $trackingUrlCompnents): Shipment
+    {
+        // https://tracking.asendia.com/tracking/LF000000000FR
+        return new Shipment(
+            url: $url,
+            trackingCode: basename($trackingUrlCompnents['path']),
+            carrier: Shipment::ASENDIA,
+            carrierName: 'Asendia',
         );
     }
 }

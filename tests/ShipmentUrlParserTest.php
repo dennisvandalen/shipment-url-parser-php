@@ -25,6 +25,15 @@ it('can parse DHL url', function () {
         ->trackingCode->toBe('TRACKING_CODE');
 });
 
+it('can parse asendia url', function () {
+    $shipment = (new ShipmentUrlParser())
+        ->parse('https://tracking.asendia.com/tracking/TRACKING_CODE');
+
+    expect($shipment)
+        ->carrier->toBe(Shipment::ASENDIA)
+        ->trackingCode->toBe('TRACKING_CODE');
+});
+
 it('can parse Onbezorgd url', function () {
     $shipment = (new ShipmentUrlParser())
         ->parse('https://pakket.onbezorgd.nl/trackandtrace.html?zipcode=ZIPCODE&orderreference=TRACKING_CODE');
