@@ -92,7 +92,15 @@ class ShipmentUrlParser
         // https://pakket.onbezorgd.nl/trackandtrace.html?zipcode=ZIPCODE&orderreference=TRACKING_CODE
 
         parse_str($trackingUrlCompnents['query'], $params);
-        $trackingCode = $params['orderreference'];
+        $trackingCode = '';
+        try {
+            $trackingCode = $params['orderreference'];
+        } catch (\Exception $e) {
+        }
+        try {
+            $trackingCode = $params['Tracecode'];
+        } catch (\Exception $e) {
+        }
 
         return new Shipment(
             url: $url,
