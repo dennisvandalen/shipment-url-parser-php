@@ -93,10 +93,12 @@ class ShipmentUrlParser
 
         parse_str($trackingUrlCompnents['query'], $params);
         $trackingCode = '';
+
         try {
             $trackingCode = $params['orderreference'];
         } catch (\Exception $e) {
         }
+
         try {
             $trackingCode = $params['Tracecode'];
         } catch (\Exception $e) {
