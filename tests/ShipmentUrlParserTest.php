@@ -48,6 +48,14 @@ it('can parse Onbezorgd url', function () {
     expect($shipment)
         ->carrier->toBe(Shipment::ONBEZORGD)
         ->trackingCode->toBe('TRACKING_CODE');
+
+
+    $shipment = (new ShipmentUrlParser())
+        ->parse('https://pakket.onbbezorgdienst.nl/trackandtrace.html?zipcode=1111AA&streetnumber=1&orderreference=TRACKING_CODE');
+
+    expect($shipment)
+        ->carrier->toBe(Shipment::ONBEZORGD)
+        ->trackingCode->toBe('TRACKING_CODE');
 });
 
 it('can parse random url', function () {

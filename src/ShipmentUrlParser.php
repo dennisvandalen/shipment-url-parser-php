@@ -23,6 +23,8 @@ class ShipmentUrlParser
                     return $this->postNlShipment($url, $trackingUrlComponents);
                 } elseif (str_contains($host, 'pakket.onbezorgd.nl')) {
                     return $this->onbezorgdShipment($url, $trackingUrlComponents);
+                } elseif (str_contains($host, 'pakket.onbbezorgdienst.nl')) {
+                    return $this->onbezorgdShipment($url, $trackingUrlComponents);
                 } elseif (str_contains($host, 'dhlparcel.nl')) {
                     return $this->dhlShipment($url, $trackingUrlComponents);
                 } elseif (str_contains($host, 'asendia.com')) {
