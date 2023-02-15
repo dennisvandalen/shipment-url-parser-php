@@ -2,6 +2,10 @@
 
 All notable changes to `shipment-url-parser-php` will be documented in this file.
 
+## 1.0.7 - 2023-02-15
+
+**Full Changelog**: https://github.com/dennisvandalen/shipment-url-parser-php/compare/1.0.6...1.0.7
+
 ## 1.0.6 - 2023-02-05
 
 - Add support for new onbezorgd url structure
