@@ -41,15 +41,37 @@ class ShipmentUrlParser
 
     public function resolveUrls($url): array
     {
+        ini_set('default_socket_timeout', 10);
+
         $locations = [];
         $locations[] = $url;
-        $getHeaders = get_headers($url, true);
+        try {
+            $getHeaders = get_headers($url, true);
 
-        if (isset($getHeaders['location'])) {
-            $locations[] = $getHeaders['location'];
+            if (isset($getHeaders['location'])) {
+                $locations[] = $getHeaders['location'];
+            }
+            if (isset($getHeaders['Location'])) {
+                $locations[] = $getHeaders['Location'];
+            }
+        } catch (\Exception $ignored) {
         }
-        if (isset($getHeaders['Location'])) {
-            $locations[] = $getHeaders['Location'];
+
+        // try curl redirect as well
+        try {
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_URL => $url
+            ));
+            curl_exec($curl);
+            $redirectUrl = curl_getinfo($curl, CURLINFO_REDIRECT_URL);
+            curl_close($curl);
+
+            if ($redirectUrl) {
+                $locations[] = $redirectUrl;
+            }
+        } catch (\Exception $ignored) {
         }
 
         return self::flatten($locations);
@@ -61,7 +83,7 @@ class ShipmentUrlParser
         $result = [];
 
         foreach ($array as $item) {
-            if (! is_array($item)) {
+            if (!is_array($item)) {
                 $result[] = $item;
             } else {
                 $values = $depth === 1
