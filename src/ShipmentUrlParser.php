@@ -29,6 +29,8 @@ class ShipmentUrlParser
                     return $this->dhlShipment($url, $trackingUrlComponents);
                 } elseif (str_contains($host, 'asendia.com')) {
                     return $this->asendiaShipment($url, $trackingUrlComponents);
+                } elseif (str_contains($host, 'ups.com')) {
+                    return $this->upsShipment($url, $trackingUrlComponents);
                 }
             } catch (\Exception $ignored) {
             }
@@ -86,6 +88,20 @@ class ShipmentUrlParser
             trackingCode: $trackingCode,
             carrier: Shipment::POSTNL,
             carrierName: 'PostNL',
+        );
+    }
+
+    private function upsShipment(string $url, array $trackingUrlCompnents): Shipment
+    {
+        // https://wwwapps.ups.com/tracking/tracking.cgi?tracknum=TRACKING_CODE
+        parse_str($trackingUrlCompnents['query'], $params);
+        $trackingCode = $params['tracknum'];
+
+        return new Shipment(
+            url: $url,
+            trackingCode: $trackingCode,
+            carrier: Shipment::UPS,
+            carrierName: 'UPS',
         );
     }
 

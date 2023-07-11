@@ -8,6 +8,7 @@ class Shipment
     public const ASENDIA = 'ASENDIA';
     public const POSTNL = 'POSTNL';
     public const ONBEZORGD = 'ONBEZORGD';
+    public const UPS = 'UPS';
 
     public const UNKNOWN = 'UNKNOWN';
 

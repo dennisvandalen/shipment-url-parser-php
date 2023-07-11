@@ -25,6 +25,15 @@ it('can parse DHL url', function () {
         ->trackingCode->toBe('TRACKING_CODE');
 });
 
+it('can parse UPS url', function () {
+    $shipment = (new ShipmentUrlParser())
+        ->parse('https://wwwapps.ups.com/tracking/tracking.cgi?tracknum=TRACKING_CODE');
+
+    expect($shipment)
+        ->carrier->toBe(Shipment::UPS)
+        ->trackingCode->toBe('TRACKING_CODE');
+});
+
 it('can parse asendia url', function () {
     $shipment = (new ShipmentUrlParser())
         ->parse('https://tracking.asendia.com/tracking/TRACKING_CODE');
