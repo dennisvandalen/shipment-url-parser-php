@@ -45,6 +45,7 @@ class ShipmentUrlParser
 
         $locations = [];
         $locations[] = $url;
+
         try {
             $getHeaders = get_headers($url, true);
 
@@ -60,10 +61,10 @@ class ShipmentUrlParser
         // try curl redirect as well
         try {
             $curl = curl_init();
-            curl_setopt_array($curl, array(
+            curl_setopt_array($curl, [
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_URL => $url
-            ));
+                CURLOPT_URL => $url,
+            ]);
             curl_exec($curl);
             $redirectUrl = curl_getinfo($curl, CURLINFO_REDIRECT_URL);
             curl_close($curl);
@@ -83,7 +84,7 @@ class ShipmentUrlParser
         $result = [];
 
         foreach ($array as $item) {
-            if (!is_array($item)) {
+            if (! is_array($item)) {
                 $result[] = $item;
             } else {
                 $values = $depth === 1
