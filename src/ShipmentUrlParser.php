@@ -86,7 +86,7 @@ class ShipmentUrlParser
         $result = [];
 
         foreach ($array as $item) {
-            if (!is_array($item)) {
+            if (! is_array($item)) {
                 $result[] = $item;
             } else {
                 $values = $depth === 1
@@ -192,6 +192,7 @@ class ShipmentUrlParser
             // If the part is 'tracktrace', take the next part as the tracking code
             if ($urlParts[$i] === 'tracktrace' && isset($urlParts[$i + 1])) {
                 $trackingCode = $urlParts[$i + 1];
+
                 break;
             }
         }
