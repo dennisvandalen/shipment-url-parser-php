@@ -25,6 +25,15 @@ it('can parse DHL url', function () {
         ->trackingCode->toBe('TRACKING_CODE');
 });
 
+it('can parse my.DHL url', function () {
+    $shipment = (new ShipmentUrlParser())
+        ->parse('https://my.dhlparcel.nl/home/tracktrace/TRACKING_CODE/ZIPCODE?lang=nl_NL');
+
+    expect($shipment)
+        ->carrier->toBe(Shipment::DHL)
+        ->trackingCode->toBe('TRACKING_CODE');
+});
+
 it('can parse UPS url', function () {
     $shipment = (new ShipmentUrlParser())
         ->parse('https://wwwapps.ups.com/tracking/tracking.cgi?tracknum=TRACKING_CODE');

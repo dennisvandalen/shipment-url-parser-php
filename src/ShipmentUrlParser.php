@@ -25,6 +25,8 @@ class ShipmentUrlParser
                     return $this->onbezorgdShipment($url, $trackingUrlComponents);
                 } elseif (str_contains($host, 'pakket.onbbezorgdienst.nl')) {
                     return $this->onbezorgdShipment($url, $trackingUrlComponents);
+                } elseif (str_contains($host, 'my.dhlparcel.nl')) {
+                    return $this->myDhlShipment($url, $trackingUrlComponents);
                 } elseif (str_contains($host, 'dhlparcel.nl')) {
                     return $this->dhlShipment($url, $trackingUrlComponents);
                 } elseif (str_contains($host, 'asendia.com')) {
@@ -84,7 +86,7 @@ class ShipmentUrlParser
         $result = [];
 
         foreach ($array as $item) {
-            if (! is_array($item)) {
+            if (!is_array($item)) {
                 $result[] = $item;
             } else {
                 $values = $depth === 1
@@ -156,7 +158,6 @@ class ShipmentUrlParser
     private function dhlShipment(string $url, array $trackingUrlCompnents): Shipment
     {
         // https://dhlparcel.nl/en/private/receiving/follow-your-shipment?tt=TRACKING_CODE&pc=ZIPCODE
-
         parse_str($trackingUrlCompnents['query'], $params);
         $trackingCode = $params['tt'];
 
@@ -176,6 +177,30 @@ class ShipmentUrlParser
             trackingCode: basename($trackingUrlCompnents['path']),
             carrier: Shipment::ASENDIA,
             carrierName: 'Asendia',
+        );
+    }
+
+    private function myDhlShipment(mixed $url, ?array $trackingUrlComponents): Shipment
+    {
+        // https://my.dhlparcel.nl/home/tracktrace/TRACKING_CODE/ZIPCODE?lang=nl_NL
+        // Split url by /
+        $urlParts = explode('/', $trackingUrlComponents['path']);
+        $trackingCode = '';
+
+        // Iterate over the parts
+        for ($i = 0; $i < count($urlParts); $i++) {
+            // If the part is 'tracktrace', take the next part as the tracking code
+            if ($urlParts[$i] === 'tracktrace' && isset($urlParts[$i + 1])) {
+                $trackingCode = $urlParts[$i + 1];
+                break;
+            }
+        }
+
+        return new Shipment(
+            url: $url,
+            trackingCode: $trackingCode,
+            carrier: Shipment::DHL,
+            carrierName: 'DHL',
         );
     }
 }
