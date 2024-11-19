@@ -2,6 +2,10 @@
 
 All notable changes to `shipment-url-parser-php` will be documented in this file.
 
+## 1.0.10 - 2024-11-19
+
+Add suppport for jouw.postnl.nl
+
 ## 1.0.9 - 2024-02-01
 
 **Full Changelog**: https://github.com/dennisvandalen/shipment-url-parser-php/compare/1.0.8...1.0.9
