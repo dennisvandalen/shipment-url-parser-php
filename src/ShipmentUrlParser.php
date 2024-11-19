@@ -6,7 +6,7 @@ use DennisVanDalen\ShipmentUrlParser\DTO\Shipment;
 
 class ShipmentUrlParser
 {
-    public function parse(string $url, bool $handleRedirects = false): ?Shipment
+    public function parse(string $url, bool $handleRedirects = true): ?Shipment
     {
         if ($handleRedirects) {
             $urls = $this->resolveUrls($url);
@@ -19,7 +19,9 @@ class ShipmentUrlParser
             $host = $trackingUrlComponents['host'];
 
             try {
-                if (str_contains($host, 'postnl')) {
+                if (str_contains($host, 'jouw.postnl.nl')) {
+                    return $this->jouwPostNlShipment($url, $trackingUrlComponents);
+                } elseif (str_contains($host, 'postnl')) {
                     return $this->postNlShipment($url, $trackingUrlComponents);
                 } elseif (str_contains($host, 'pakket.onbezorgd.nl')) {
                     return $this->onbezorgdShipment($url, $trackingUrlComponents);
@@ -100,6 +102,21 @@ class ShipmentUrlParser
         }
 
         return $result;
+    }
+
+    private function jouwPostNlShipment(string $url, array $trackingUrlCompnents): Shipment
+    {
+        // regex https://jouw.postnl.nl/track-and-trace/TRACKING_CODE-NL-ZIPCODE
+        if (preg_match('~track-and-trace/([^-]+)-~', $url, $matches)) {
+            $trackingCode = $matches[1];
+        }
+
+        return new Shipment(
+            url: $url,
+            trackingCode: $trackingCode,
+            carrier: Shipment::POSTNL,
+            carrierName: 'PostNL',
+        );
     }
 
     private function postNlShipment(string $url, array $trackingUrlCompnents): Shipment

@@ -16,6 +16,15 @@ it('can parse PostNL url', function () {
         ->trackingCode->toBe('TRACKING_CODE');
 });
 
+it('can parse jouw PostNL url', function () {
+    $shipment = (new ShipmentUrlParser())
+        ->parse('https://jouw.postnl.nl/track-and-trace/TRACKING_CODE-NL-ZIPCODE');
+
+    expect($shipment)
+        ->carrier->toBe(Shipment::POSTNL)
+        ->trackingCode->toBe('TRACKING_CODE');
+});
+
 it('can parse DHL url', function () {
     $shipment = (new ShipmentUrlParser())
         ->parse('https://dhlparcel.nl/en/private/receiving/follow-your-shipment?tt=TRACKING_CODE&pc=ZIPCODE');
