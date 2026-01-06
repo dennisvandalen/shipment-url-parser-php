@@ -43,6 +43,16 @@ it('can parse my.DHL url', function () {
         ->trackingCode->toBe('TRACKING_CODE');
 });
 
+it('can parse my.dhlecommerce url', function () {
+    // anonymized tracking code and zipcode in the test URL
+    $shipment = (new ShipmentUrlParser())
+        ->parse('https://my.dhlecommerce.nl/home/tracktrace/TRACKING_CODE/ZIPCODE?lang=en-NL');
+
+    expect($shipment)
+        ->carrier->toBe(Shipment::DHL)
+        ->trackingCode->toBe('TRACKING_CODE');
+});
+
 it('can parse UPS url', function () {
     $shipment = (new ShipmentUrlParser())
         ->parse('https://wwwapps.ups.com/tracking/tracking.cgi?tracknum=TRACKING_CODE');
@@ -78,7 +88,7 @@ it('can parse Onbezorgd url', function () {
 
 
     $shipment = (new ShipmentUrlParser())
-        ->parse('https://pakket.onbbezorgdienst.nl/trackandtrace.html?zipcode=1111AA&streetnumber=1&orderreference=TRACKING_CODE');
+        ->parse('https://pakket.onbbezorgdienst.nl/trackandtrace.html?zipcode=ZIPCODE&streetnumber=1&orderreference=TRACKING_CODE');
 
     expect($shipment)
         ->carrier->toBe(Shipment::ONBEZORGD)
