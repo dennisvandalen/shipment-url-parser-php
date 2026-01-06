@@ -2,6 +2,10 @@
 
 All notable changes to `shipment-url-parser-php` will be documented in this file.
 
+## 1.0.11 - 2026-01-06
+
+Add support for my.dhlecommerce (DHL e-commerce) links and anonymize tests; all tests passing.
+
 ## 1.0.10 - 2024-11-19
 
 Add suppport for jouw.postnl.nl
