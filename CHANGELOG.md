@@ -2,6 +2,13 @@
 
 All notable changes to `shipment-url-parser-php` will be documented in this file.
 
+## v1.0.13 - 2026-01-30
+
+### What's Changed
+
+- Sanitize URLs by encoding unescaped spaces as `%20` before parsing
+- Fixes parsing of URLs with spaces in query parameters (e.g., postal codes like `7071 HD`)
+
 ## 1.0.11 - 2026-01-06
 
 Add support for my.dhlecommerce (DHL e-commerce) links and anonymize tests; all tests passing.
