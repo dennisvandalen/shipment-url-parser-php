@@ -8,6 +8,9 @@ class ShipmentUrlParser
 {
     public function parse(string $url, bool $handleRedirects = true): ?Shipment
     {
+        // Encode spaces that might not be properly URL-encoded
+        $url = $this->sanitizeUrl($url);
+
         if ($handleRedirects) {
             $urls = $this->resolveUrls($url);
         } else {
@@ -15,6 +18,7 @@ class ShipmentUrlParser
         }
 
         foreach ($urls as $url) {
+            $url = $this->sanitizeUrl($url);
             $trackingUrlComponents = parse_url($url);
             $host = $trackingUrlComponents['host'];
 
@@ -107,6 +111,12 @@ class ShipmentUrlParser
         }
 
         return $result;
+    }
+
+    private function sanitizeUrl(string $url): string
+    {
+        // Encode spaces that might not be properly URL-encoded
+        return str_replace(' ', '%20', $url);
     }
 
     private function jouwPostNlShipment(string $url, array $trackingUrlCompnents): Shipment

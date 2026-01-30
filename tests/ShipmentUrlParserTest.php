@@ -112,3 +112,21 @@ it('can parse random url', function () {
     expect($shipment)
         ->toBeNull();
 });
+
+it('can parse PostNL url with unescaped spaces', function () {
+    $shipment = (new ShipmentUrlParser())
+        ->parse('http://postnl.nl/tracktrace/?D=NL&B=TRACKING_CODE&P=7071 HD&T=C', handleRedirects: false);
+
+    expect($shipment)
+        ->carrier->toBe(Shipment::POSTNL)
+        ->trackingCode->toBe('TRACKING_CODE');
+});
+
+it('can parse jouw PostNL url with unescaped spaces', function () {
+    $shipment = (new ShipmentUrlParser())
+        ->parse('https://jouw.postnl.nl/track-and-trace/TRACKING_CODE-NL-7071 HD', handleRedirects: false);
+
+    expect($shipment)
+        ->carrier->toBe(Shipment::POSTNL)
+        ->trackingCode->toBe('TRACKING_CODE');
+});
