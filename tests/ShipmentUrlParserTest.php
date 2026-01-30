@@ -53,6 +53,16 @@ it('can parse my.dhlecommerce url', function () {
         ->trackingCode->toBe('TRACKING_CODE');
 });
 
+it('can parse DHL Express url', function () {
+    $shipment = (new ShipmentUrlParser())
+        ->parse('https://www.dhl.com/nl-en/home/tracking/tracking-express.html?tracking-id=TRACKING_CODE&submit=1');
+
+    expect($shipment)
+        ->carrier->toBe(Shipment::DHL)
+        ->carrierName->toBe('DHL Express')
+        ->trackingCode->toBe('TRACKING_CODE');
+});
+
 it('can parse UPS url', function () {
     $shipment = (new ShipmentUrlParser())
         ->parse('https://wwwapps.ups.com/tracking/tracking.cgi?tracknum=TRACKING_CODE');

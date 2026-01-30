@@ -34,6 +34,8 @@ class ShipmentUrlParser
                     return $this->myDhlShipment($url, $trackingUrlComponents);
                 } elseif (str_contains($host, 'dhlparcel.nl')) {
                     return $this->dhlShipment($url, $trackingUrlComponents);
+                } elseif (str_contains($host, 'www.dhl.com')) {
+                    return $this->dhlExpressShipment($url, $trackingUrlComponents);
                 } elseif (str_contains($host, 'asendia.com')) {
                     return $this->asendiaShipment($url, $trackingUrlComponents);
                 } elseif (str_contains($host, 'ups.com')) {
@@ -222,6 +224,20 @@ class ShipmentUrlParser
             trackingCode: $trackingCode,
             carrier: Shipment::DHL,
             carrierName: 'DHL',
+        );
+    }
+
+    private function dhlExpressShipment(string $url, array $trackingUrlComponents): Shipment
+    {
+        // https://www.dhl.com/nl-en/home/tracking/tracking-express.html?tracking-id=1234567890&submit=1
+        parse_str($trackingUrlComponents['query'], $params);
+        $trackingCode = $params['tracking-id'];
+
+        return new Shipment(
+            url: $url,
+            trackingCode: $trackingCode,
+            carrier: Shipment::DHL,
+            carrierName: 'DHL Express',
         );
     }
 }

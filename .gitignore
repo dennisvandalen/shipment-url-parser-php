@@ -11,3 +11,8 @@ psalm.xml
 vendor
 .php-cs-fixer.cache
 
+settings.local.json
+parse-results.csv
+printsyncer.csv
+printsyncer_1000.csv
+test.php
