@@ -8,11 +8,8 @@ use DennisVanDalen\ShipmentUrlParser\Redirects\RedirectResolver;
 
 class ShipmentUrlParser
 {
-    private RedirectResolver $redirectResolver;
-
-    public function __construct(?RedirectResolver $redirectResolver = null)
+    public function __construct(private ?RedirectResolver $redirectResolver = null)
     {
-        $this->redirectResolver = $redirectResolver ?? new HttpRedirectResolver();
     }
 
     public function parse(string $url, bool $handleRedirects = true): ?Shipment
@@ -65,7 +62,8 @@ class ShipmentUrlParser
 
     public function resolveUrls($url): array
     {
-        return $this->redirectResolver->resolve($url);
+        // Resolved lazily so subclasses that skip parent::__construct() keep working
+        return ($this->redirectResolver ??= new HttpRedirectResolver())->resolve($url);
     }
 
     // Thanks Laravel
