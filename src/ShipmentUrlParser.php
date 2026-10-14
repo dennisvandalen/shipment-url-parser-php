@@ -3,9 +3,18 @@
 namespace DennisVanDalen\ShipmentUrlParser;
 
 use DennisVanDalen\ShipmentUrlParser\DTO\Shipment;
+use DennisVanDalen\ShipmentUrlParser\Redirects\HttpRedirectResolver;
+use DennisVanDalen\ShipmentUrlParser\Redirects\RedirectResolver;
 
 class ShipmentUrlParser
 {
+    private RedirectResolver $redirectResolver;
+
+    public function __construct(?RedirectResolver $redirectResolver = null)
+    {
+        $this->redirectResolver = $redirectResolver ?? new HttpRedirectResolver();
+    }
+
     public function parse(string $url, bool $handleRedirects = true): ?Shipment
     {
         // Encode spaces that might not be properly URL-encoded
@@ -56,43 +65,7 @@ class ShipmentUrlParser
 
     public function resolveUrls($url): array
     {
-        ini_set('default_socket_timeout', 10);
-
-        $locations = [];
-        $locations[] = $url;
-
-        try {
-            $getHeaders = get_headers($url, true);
-
-            if (isset($getHeaders['location'])) {
-                $locations[] = $getHeaders['location'];
-            }
-            if (isset($getHeaders['Location'])) {
-                $locations[] = $getHeaders['Location'];
-            }
-        } catch (\Exception $ignored) {
-        }
-
-        // try curl redirect as well
-        try {
-            $curl = curl_init();
-            curl_setopt_array($curl, [
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_URL => $url,
-                CURLOPT_CONNECTTIMEOUT => 5,
-                CURLOPT_TIMEOUT => 10,
-            ]);
-            curl_exec($curl);
-            $redirectUrl = curl_getinfo($curl, CURLINFO_REDIRECT_URL);
-            curl_close($curl);
-
-            if ($redirectUrl) {
-                $locations[] = $redirectUrl;
-            }
-        } catch (\Exception $ignored) {
-        }
-
-        return self::flatten($locations);
+        return $this->redirectResolver->resolve($url);
     }
 
     // Thanks Laravel
