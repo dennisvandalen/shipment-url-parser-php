@@ -2,6 +2,10 @@
 
 All notable changes to `shipment-url-parser-php` will be documented in this file.
 
+## v1.1.0 - 2026-10-14
+
+Redirect resolution is now injectable: `new ShipmentUrlParser($resolver)` accepts an optional `RedirectResolver`. Without one, the default `HttpRedirectResolver` behaves as before. Fully backwards compatible.
+
 ## v1.0.15 - 2026-10-14
 
 Redirect resolution now times out instead of hanging when a carrier site doesn't respond.
