@@ -9,7 +9,7 @@ it('can test', function () {
 
 it('can parse PostNL url', function () {
     $shipment = (new ShipmentUrlParser())
-        ->parse('http://postnl.nl/tracktrace/?D=NL&B=TRACKING_CODE&P=ZIPCODE');
+        ->parse('http://postnl.nl/tracktrace/?D=NL&B=TRACKING_CODE&P=ZIPCODE', handleRedirects: false);
 
     expect($shipment)
         ->carrier->toBe(Shipment::POSTNL)
@@ -18,7 +18,7 @@ it('can parse PostNL url', function () {
 
 it('can parse jouw PostNL url', function () {
     $shipment = (new ShipmentUrlParser())
-        ->parse('https://jouw.postnl.nl/track-and-trace/TRACKING_CODE-NL-ZIPCODE');
+        ->parse('https://jouw.postnl.nl/track-and-trace/TRACKING_CODE-NL-ZIPCODE', handleRedirects: false);
 
     expect($shipment)
         ->carrier->toBe(Shipment::POSTNL)
@@ -27,7 +27,7 @@ it('can parse jouw PostNL url', function () {
 
 it('can parse DHL url', function () {
     $shipment = (new ShipmentUrlParser())
-        ->parse('https://dhlparcel.nl/en/private/receiving/follow-your-shipment?tt=TRACKING_CODE&pc=ZIPCODE');
+        ->parse('https://dhlparcel.nl/en/private/receiving/follow-your-shipment?tt=TRACKING_CODE&pc=ZIPCODE', handleRedirects: false);
 
     expect($shipment)
         ->carrier->toBe(Shipment::DHL)
@@ -36,7 +36,7 @@ it('can parse DHL url', function () {
 
 it('can parse my.DHL url', function () {
     $shipment = (new ShipmentUrlParser())
-        ->parse('https://my.dhlparcel.nl/home/tracktrace/TRACKING_CODE/ZIPCODE?lang=nl_NL');
+        ->parse('https://my.dhlparcel.nl/home/tracktrace/TRACKING_CODE/ZIPCODE?lang=nl_NL', handleRedirects: false);
 
     expect($shipment)
         ->carrier->toBe(Shipment::DHL)
@@ -46,7 +46,7 @@ it('can parse my.DHL url', function () {
 it('can parse my.dhlecommerce url', function () {
     // anonymized tracking code and zipcode in the test URL
     $shipment = (new ShipmentUrlParser())
-        ->parse('https://my.dhlecommerce.nl/home/tracktrace/TRACKING_CODE/ZIPCODE?lang=en-NL');
+        ->parse('https://my.dhlecommerce.nl/home/tracktrace/TRACKING_CODE/ZIPCODE?lang=en-NL', handleRedirects: false);
 
     expect($shipment)
         ->carrier->toBe(Shipment::DHL)
@@ -55,7 +55,7 @@ it('can parse my.dhlecommerce url', function () {
 
 it('can parse DHL Express url', function () {
     $shipment = (new ShipmentUrlParser())
-        ->parse('https://www.dhl.com/nl-en/home/tracking/tracking-express.html?tracking-id=TRACKING_CODE&submit=1');
+        ->parse('https://www.dhl.com/nl-en/home/tracking/tracking-express.html?tracking-id=TRACKING_CODE&submit=1', handleRedirects: false);
 
     expect($shipment)
         ->carrier->toBe(Shipment::DHL)
@@ -65,7 +65,7 @@ it('can parse DHL Express url', function () {
 
 it('can parse UPS url', function () {
     $shipment = (new ShipmentUrlParser())
-        ->parse('https://wwwapps.ups.com/tracking/tracking.cgi?tracknum=TRACKING_CODE');
+        ->parse('https://wwwapps.ups.com/tracking/tracking.cgi?tracknum=TRACKING_CODE', handleRedirects: false);
 
     expect($shipment)
         ->carrier->toBe(Shipment::UPS)
@@ -74,7 +74,7 @@ it('can parse UPS url', function () {
 
 it('can parse asendia url', function () {
     $shipment = (new ShipmentUrlParser())
-        ->parse('https://tracking.asendia.com/tracking/TRACKING_CODE');
+        ->parse('https://tracking.asendia.com/tracking/TRACKING_CODE', handleRedirects: false);
 
     expect($shipment)
         ->carrier->toBe(Shipment::ASENDIA)
@@ -83,14 +83,14 @@ it('can parse asendia url', function () {
 
 it('can parse Onbezorgd url', function () {
     $shipment = (new ShipmentUrlParser())
-        ->parse('https://pakket.onbezorgd.nl/trackandtrace.html?zipcode=ZIPCODE&orderreference=TRACKING_CODE');
+        ->parse('https://pakket.onbezorgd.nl/trackandtrace.html?zipcode=ZIPCODE&orderreference=TRACKING_CODE', handleRedirects: false);
 
     expect($shipment)
         ->carrier->toBe(Shipment::ONBEZORGD)
         ->trackingCode->toBe('TRACKING_CODE');
 
     $shipment = (new ShipmentUrlParser())
-        ->parse('https://pakket.onbezorgd.nl/TrackAndTrace/tnt?Tracecode=TRACKING_CODE&Postalcode=ZIPCODE&Number=1');
+        ->parse('https://pakket.onbezorgd.nl/TrackAndTrace/tnt?Tracecode=TRACKING_CODE&Postalcode=ZIPCODE&Number=1', handleRedirects: false);
 
     expect($shipment)
         ->carrier->toBe(Shipment::ONBEZORGD)
@@ -98,7 +98,7 @@ it('can parse Onbezorgd url', function () {
 
 
     $shipment = (new ShipmentUrlParser())
-        ->parse('https://pakket.onbbezorgdienst.nl/trackandtrace.html?zipcode=ZIPCODE&streetnumber=1&orderreference=TRACKING_CODE');
+        ->parse('https://pakket.onbbezorgdienst.nl/trackandtrace.html?zipcode=ZIPCODE&streetnumber=1&orderreference=TRACKING_CODE', handleRedirects: false);
 
     expect($shipment)
         ->carrier->toBe(Shipment::ONBEZORGD)
@@ -107,7 +107,7 @@ it('can parse Onbezorgd url', function () {
 
 it('can parse random url', function () {
     $shipment = (new ShipmentUrlParser())
-        ->parse('https://fewjfbewjkfbkewjf.nl/trackandtrace.html?zipcode=ZIPCODE&orderreference=TRACKING_CODE');
+        ->parse('https://fewjfbewjkfbkewjf.nl/trackandtrace.html?zipcode=ZIPCODE&orderreference=TRACKING_CODE', handleRedirects: false);
 
     expect($shipment)
         ->toBeNull();

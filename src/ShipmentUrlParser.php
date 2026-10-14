@@ -79,6 +79,8 @@ class ShipmentUrlParser
             curl_setopt_array($curl, [
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_URL => $url,
+                CURLOPT_CONNECTTIMEOUT => 5,
+                CURLOPT_TIMEOUT => 10,
             ]);
             curl_exec($curl);
             $redirectUrl = curl_getinfo($curl, CURLINFO_REDIRECT_URL);
