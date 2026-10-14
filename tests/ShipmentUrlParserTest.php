@@ -130,3 +130,13 @@ it('can parse jouw PostNL url with unescaped spaces', function () {
         ->carrier->toBe(Shipment::POSTNL)
         ->trackingCode->toBe('TRACKING_CODE');
 });
+
+it('can parse Trans-Mission url', function () {
+    $shipment = (new ShipmentUrlParser())
+        ->parse('https://api.trans-mission.nl/tt/TRACKING_CODE/ZIPCODE', handleRedirects: false);
+
+    expect($shipment)
+        ->carrier->toBe(Shipment::TRANSMISSION)
+        ->carrierName->toBe('Trans-Mission')
+        ->trackingCode->toBe('TRACKING_CODE');
+});

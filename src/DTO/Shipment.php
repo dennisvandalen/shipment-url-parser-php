@@ -9,6 +9,7 @@ class Shipment
     public const POSTNL = 'POSTNL';
     public const ONBEZORGD = 'ONBEZORGD';
     public const UPS = 'UPS';
+    public const TRANSMISSION = 'TRANSMISSION';
 
     public const UNKNOWN = 'UNKNOWN';
 

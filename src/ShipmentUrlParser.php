@@ -44,6 +44,8 @@ class ShipmentUrlParser
                     return $this->asendiaShipment($url, $trackingUrlComponents);
                 } elseif (str_contains($host, 'ups.com')) {
                     return $this->upsShipment($url, $trackingUrlComponents);
+                } elseif (str_contains($host, 'trans-mission.nl')) {
+                    return $this->transMissionShipment($url, $trackingUrlComponents);
                 }
             } catch (\Exception $ignored) {
             }
@@ -248,6 +250,21 @@ class ShipmentUrlParser
             trackingCode: $trackingCode,
             carrier: Shipment::DHL,
             carrierName: 'DHL Express',
+        );
+    }
+
+    private function transMissionShipment(string $url, array $trackingUrlComponents): Shipment
+    {
+        // https://api.trans-mission.nl/tt/TRACKING_CODE/ZIPCODE
+        if (! preg_match('~/tt/([^/]+)~', $trackingUrlComponents['path'], $matches)) {
+            throw new \Exception('No Trans-Mission tracking code found');
+        }
+
+        return new Shipment(
+            url: $url,
+            trackingCode: $matches[1],
+            carrier: Shipment::TRANSMISSION,
+            carrierName: 'Trans-Mission',
         );
     }
 }
