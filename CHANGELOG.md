@@ -2,6 +2,10 @@
 
 All notable changes to `shipment-url-parser-php` will be documented in this file.
 
+## v1.0.14 - 2026-10-14
+
+Add support for Trans-Mission links (including Wuunder tracking links that redirect to Trans-Mission).
+
 ## v1.0.13 - 2026-01-30
 
 ### What's Changed
