@@ -2,6 +2,10 @@
 
 All notable changes to `shipment-url-parser-php` will be documented in this file.
 
+## v1.1.1 - 2026-11-17
+
+Wuunder tracking links that redirect to `online.transmission.nl` are now parsed as Trans-Mission shipments.
+
 ## v1.1.0 - 2026-10-14
 
 Redirect resolution is now injectable: `new ShipmentUrlParser($resolver)` accepts an optional `RedirectResolver`. Without one, the default `HttpRedirectResolver` behaves as before. Fully backwards compatible.
