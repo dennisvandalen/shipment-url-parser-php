@@ -50,7 +50,7 @@ class ShipmentUrlParser
                     return $this->asendiaShipment($url, $trackingUrlComponents);
                 } elseif (str_contains($host, 'ups.com')) {
                     return $this->upsShipment($url, $trackingUrlComponents);
-                } elseif (str_contains($host, 'trans-mission.nl')) {
+                } elseif (str_contains($host, 'trans-mission.nl') || str_contains($host, 'transmission.nl')) {
                     return $this->transMissionShipment($url, $trackingUrlComponents);
                 }
             } catch (\Exception $ignored) {
@@ -229,7 +229,9 @@ class ShipmentUrlParser
     private function transMissionShipment(string $url, array $trackingUrlComponents): Shipment
     {
         // https://api.trans-mission.nl/tt/TRACKING_CODE/ZIPCODE
-        if (! preg_match('~/tt/([^/]+)~', $trackingUrlComponents['path'], $matches)) {
+        // https://online.transmission.nl/tt/TRACKING_CODE/ZIPCODE
+        // https://online.transmission.nl/track-trace/TRACKING_CODE?postalcode=ZIPCODE
+        if (! preg_match('~/(?:tt|track-trace)/([^/]+)~', $trackingUrlComponents['path'] ?? '', $matches)) {
             throw new \Exception('No Trans-Mission tracking code found');
         }
 

@@ -141,16 +141,31 @@ it('can parse Trans-Mission url', function () {
         ->trackingCode->toBe('TRACKING_CODE');
 });
 
-it('follows a Wuunder redirect to Trans-Mission', function () {
+it('can parse online.transmission.nl urls', function (string $url) {
+    $shipment = parser()->parse($url);
+
+    expect($shipment)
+        ->carrier->toBe(Shipment::TRANSMISSION)
+        ->carrierName->toBe('Trans-Mission')
+        ->trackingCode->toBe('TRACKING_CODE');
+})->with([
+    'tt' => 'https://online.transmission.nl/tt/TRACKING_CODE/ZIPCODE',
+    'track-trace' => 'https://online.transmission.nl/track-trace/TRACKING_CODE?postalcode=ZIPCODE',
+]);
+
+it('follows a Wuunder redirect to Trans-Mission', function (string $target) {
     $shipment = parser([
-        'https://api.wearewuunder.com/shipments/SHIPMENT_ID/track_and_trace?token=TOKEN' => 'https://api.trans-mission.nl/tt/TRACKING_CODE/ZIPCODE',
+        'https://api.wearewuunder.com/shipments/SHIPMENT_ID/track_and_trace?token=TOKEN' => $target,
     ])->parse('https://api.wearewuunder.com/shipments/SHIPMENT_ID/track_and_trace?token=TOKEN');
 
     expect($shipment)
-        ->url->toBe('https://api.trans-mission.nl/tt/TRACKING_CODE/ZIPCODE')
+        ->url->toBe($target)
         ->carrier->toBe(Shipment::TRANSMISSION)
         ->trackingCode->toBe('TRACKING_CODE');
-});
+})->with([
+    'api.trans-mission.nl' => 'https://api.trans-mission.nl/tt/TRACKING_CODE/ZIPCODE',
+    'online.transmission.nl' => 'https://online.transmission.nl/tt/TRACKING_CODE/ZIPCODE',
+]);
 
 it('does not resolve redirects when disabled', function () {
     $resolver = new FakeRedirectResolver([
